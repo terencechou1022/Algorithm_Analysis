@@ -52,6 +52,24 @@ codes = generate_huffman_codes(build_huffman_tree(build_freq_map("aaabbc")))
 
 同一份 quick sort 程式碼，只改輸入分佈：已排序輸入退化為 O(n²)，4,096 筆資料比隨機輸入慢 180 倍。理論上的最壞情況，實測看得見。
 
+## 從理論到工具：huffzip
+
+[tools/huffzip.py](tools/huffzip.py) 把霍夫曼編碼實作變成能壓縮真實檔案的 CLI：逐位元組統計頻率、位元流打包、檔頭帶頻率表，解壓端重建同一棵樹。
+
+```bash
+python tools/huffzip.py compress   benchmarks/results/sorting.csv  sorting.huff
+python tools/huffzip.py decompress sorting.huff  restored.csv
+```
+
+實際結果（端對端測試以 SHA-256 驗證位元組級完全還原）：
+
+```
+sorting.csv: 17,759 bytes -> 10,217 bytes (57.5% of original)
+README.md:    4,042 bytes ->  4,535 bytes (112.2% of original)
+```
+
+第二行是刻意保留的反例：本 README 以 UTF-8 中文為主，位元組分佈平坦，單符號霍夫曼編碼吃不到便宜，加上檔頭後反而變大。壓縮效果取決於輸入的位元組熵，這正是理論落在真實檔案上的樣子。
+
 ## 測試怎麼寫
 
 - 四種排序：與 Python 內建 `sorted()` 對照，涵蓋空列表、單一元素、全重複、已排序、反向、負數、浮點數，以及固定 seed 的隨機案例
@@ -64,6 +82,7 @@ codes = generate_huffman_codes(build_huffman_tree(build_freq_map("aaabbc")))
 src/algorithms/    # 演算法本體（安裝為 Python 套件）
 tests/             # pytest 測試
 benchmarks/        # 效能量測與繪圖腳本、實測數據 CSV
+tools/             # huffzip 等示範 CLI 工具
 docs/              # 分析文件與效能圖表
 .github/workflows/ # CI：ruff 靜態檢查 + pytest
 ```
@@ -71,5 +90,5 @@ docs/              # 分析文件與效能圖表
 ## 後續規劃
 
 - [x] 效能實測：多種輸入規模與分佈的 benchmark，理論 vs 實測曲線分析（[docs/analysis.md](docs/analysis.md)）
-- [ ] huffzip：以霍夫曼編碼實作、能壓縮真實檔案的 CLI 工具
+- [x] huffzip：以霍夫曼編碼實作、能壓縮真實檔案的 CLI 工具（[tools/huffzip.py](tools/huffzip.py)）
 - [ ] minidiff：以 LCS 實作的檔案差異比較工具

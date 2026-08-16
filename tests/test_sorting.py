@@ -35,3 +35,13 @@ def test_sorts_match_builtin(sort_fn, case):
 
     assert result == sorted(case)  # 排序結果正確
     assert result is data  # 介面約定：就地排序並回傳同一個列表
+
+
+@pytest.mark.parametrize("sort_fn", ALGORITHMS)
+def test_sorts_any_comparable_type(sort_fn):
+    # 合併排序移除無限大哨兵後，任何可互相比較的型別都能排序
+    chars = list("insertionsort")
+    assert sort_fn(chars) == sorted("insertionsort")
+
+    words = ["merge", "heap", "quick", "insertion", "heap"]
+    assert sort_fn(words) == sorted(words)

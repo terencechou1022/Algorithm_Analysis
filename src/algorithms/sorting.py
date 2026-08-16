@@ -37,23 +37,25 @@ def _merge_sort(A, p, r):
 
 
 def _merge(A, p, q, r):
-    n1 = q - p + 1  # 左子陣列長度
-    n2 = r - q  # 右子陣列長度
-
-    # 建立左右兩個子陣列，各以無限大作為結尾哨兵
-    L = A[p:p + n1] + [float("inf")]
-    R = A[q + 1:q + 1 + n2] + [float("inf")]
+    L = A[p:q + 1]  # 複製左子陣列
+    R = A[q + 1:r + 1]  # 複製右子陣列
     i = 0  # 左子陣列索引
     j = 0  # 右子陣列索引
+    k = p  # 寫回原陣列的位置
 
-    # 合併兩個子陣列：每一步取兩邊開頭較小者放回原陣列
-    for k in range(p, r + 1):
+    # 雙指標合併：兩邊都還有元素時，取開頭較小者放回原陣列
+    # （相等時取左邊以維持穩定性；不依賴無限大哨兵，任何可比較型別都能排序）
+    while i < len(L) and j < len(R):
         if L[i] <= R[j]:
             A[k] = L[i]
             i += 1
         else:
             A[k] = R[j]
             j += 1
+        k += 1
+
+    # 其中一邊取完後，把另一邊剩餘元素依序放回
+    A[k:r + 1] = L[i:] if i < len(L) else R[j:]
 
 
 def heap_sort(A):

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# 工作檔（規劃筆記，不屬於作品內容）
+tasks/
+
+# 本機工具設定
+.claude/

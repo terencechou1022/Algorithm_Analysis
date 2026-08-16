@@ -1,6 +1,7 @@
 """霍夫曼編碼測試：示範頻率表的加權長度、前綴性質、編解碼往返與邊界案例。"""
 
 import random
+from collections import Counter
 
 from algorithms.huffman import (
     build_freq_map,
@@ -61,6 +62,18 @@ def test_empty_input():
     assert generate_huffman_codes(None) == {}
     assert encode("", {}) == ""
     assert decode("", None) == ""
+
+
+def test_tree_independent_of_dict_insertion_order():
+    # 內部節點頻率平手時，建樹結果不得依賴頻率表的插入順序：
+    # 壓縮端（Counter 首見順序）與解壓端（排序後順序）必須重建出同一棵樹
+    text = "Huffman coding assigns shorter codes to more frequent symbols. " * 3
+    freq_counter_order = dict(Counter(text))
+    freq_sorted_order = dict(sorted(freq_counter_order.items()))
+
+    codes_a = generate_huffman_codes(build_huffman_tree(freq_counter_order))
+    codes_b = generate_huffman_codes(build_huffman_tree(freq_sorted_order))
+    assert codes_a == codes_b
 
 
 def test_codes_do_not_leak_between_calls():

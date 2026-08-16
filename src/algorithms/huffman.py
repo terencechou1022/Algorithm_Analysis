@@ -33,8 +33,10 @@ def build_huffman_tree(char_freq):
     if not char_freq:
         return None
 
-    heap = [TreeNode(char, freq) for char, freq in char_freq.items()]
-    heapq.heapify(heap)
+    # 先依 (頻率, 字元) 排序固定初始排列：內部節點頻率平手時的合併順序因此
+    # 只取決於頻率表「內容」，與字典插入順序無關（解壓端重建同一棵樹的前提）；
+    # 排序後的列表本身即滿足最小堆積性質，可直接作為 heapq 的堆積使用
+    heap = sorted(TreeNode(char, freq) for char, freq in char_freq.items())
 
     while len(heap) > 1:
         x = heapq.heappop(heap)  # 頻率最小的節點

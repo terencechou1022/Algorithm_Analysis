@@ -3,7 +3,7 @@
 import random
 from itertools import combinations
 
-from algorithms.lcs import lcs
+from algorithms.lcs import lcs, lcs_sequence
 
 
 def _is_subsequence(s, t):
@@ -32,6 +32,14 @@ def test_edge_cases():
     assert lcs("", "XYZ") == (0, "")
     assert lcs("ABC", "ABC") == (3, "ABC")
     assert lcs("ABC", "XYZ") == (0, "")
+
+
+def test_lcs_sequence_on_line_lists():
+    # 泛用序列介面：元素為「行」而非字元（minidiff 工具依賴此行為）
+    old = ["a", "b", "c", "d"]
+    new = ["a", "x", "c", "y"]
+    assert lcs_sequence(old, new) == ["a", "c"]
+    assert lcs_sequence([], new) == []
 
 
 def test_random_against_brute_force():

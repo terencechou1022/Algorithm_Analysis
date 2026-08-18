@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml)
 
-這個專案從零開始實作經典演算法，並逐步擴充為完整的實作與分析專案。我的大學本科不是資訊領域，所以我選擇讓程式碼自己說話：每一個演算法都有正確性測試、理論複雜度說明，接下來還會加上實測數據與理論的對照分析。
+這個專案從零開始實作經典演算法，並逐步擴充為完整的實作與分析專案。我的大學本科不是資訊領域，所以我選擇讓程式碼自己說話：每一個演算法都有正確性測試、理論複雜度說明，以及實測數據與理論的對照分析（[docs/analysis.md](docs/analysis.md)）。
 
 ## 收錄內容
 
@@ -18,7 +18,7 @@
 | 最長共同子序列 LCS | 動態規劃 | O(mn) | O(mn) | O(mn) | [lcs.py](src/algorithms/lcs.py) |
 
 ¹ 本實作的 heapify 為遞迴版本，呼叫堆疊深度 O(log n)。
-² 採 CLRS 的 Lomuto 分割（固定取尾端元素當樞軸），已排序輸入會退化為 O(n²)。這是刻意保留的教科書行為，之後會在效能分析中實測這條退化曲線。
+² 採 CLRS 的 Lomuto 分割（固定取尾端元素當樞軸），已排序輸入會退化為 O(n²)。這是刻意保留的教科書行為，退化曲線的實測見 [docs/analysis.md](docs/analysis.md)。
 
 ## 快速開始
 
@@ -52,7 +52,9 @@ codes = generate_huffman_codes(build_huffman_tree(build_freq_map("aaabbc")))
 
 同一份 quick sort 程式碼，只改輸入分佈：已排序輸入退化為 O(n²)，4,096 筆資料比隨機輸入慢 180 倍。理論上的最壞情況，實測看得見。
 
-## 從理論到工具：huffzip
+## 從理論到工具
+
+### huffzip
 
 [tools/huffzip.py](tools/huffzip.py) 把霍夫曼編碼實作變成能壓縮真實檔案的 CLI：逐位元組統計頻率、位元流打包、檔頭帶頻率表，解壓端重建同一棵樹。
 
@@ -69,6 +71,25 @@ README.md:    4,042 bytes ->  4,535 bytes (112.2% of original)
 ```
 
 第二行是刻意保留的反例：本 README 以 UTF-8 中文為主，位元組分佈平坦，單符號霍夫曼編碼吃不到便宜，加上檔頭後反而變大。壓縮效果取決於輸入的位元組熵，這正是理論落在真實檔案上的樣子。
+
+### minidiff
+
+[tools/minidiff.py](tools/minidiff.py) 用同一份 LCS 實作做行級檔案比較：兩個檔案的「最長共同行序列」就是 LCS，不在其中的行即為差異。
+
+```bash
+python tools/minidiff.py old.py new.py
+```
+
+```
+  def total(items):
+-     result = 0
+-     for x in items:
+-         result += x
++     result = sum(items)
+      return result
+```
+
+端對端測試除了已知案例，還驗證兩個性質：由 diff 輸出可完整重建兩個原檔，且在無歧義的案例下與 `git diff --no-index` 的差異行完全一致。
 
 ## 測試怎麼寫
 
@@ -91,4 +112,4 @@ docs/              # 分析文件與效能圖表
 
 - [x] 效能實測：多種輸入規模與分佈的 benchmark，理論 vs 實測曲線分析（[docs/analysis.md](docs/analysis.md)）
 - [x] huffzip：以霍夫曼編碼實作、能壓縮真實檔案的 CLI 工具（[tools/huffzip.py](tools/huffzip.py)）
-- [ ] minidiff：以 LCS 實作的檔案差異比較工具
+- [x] minidiff：以 LCS 實作的檔案差異比較工具（[tools/minidiff.py](tools/minidiff.py)）

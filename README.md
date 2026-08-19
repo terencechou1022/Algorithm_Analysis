@@ -1,6 +1,6 @@
-# Algorithm Analysis
+# Algorithms from Scratch
 
-> Classic algorithms implemented from scratch in Python: tested, measured, and analyzed.
+> Six classic algorithms in Python, with correctness tests, empirical complexity analysis, and two CLI tools built on them.
 
 [![CI](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml)
 

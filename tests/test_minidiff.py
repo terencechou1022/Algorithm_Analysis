@@ -64,6 +64,22 @@ def test_known_case(tmp_path):
     ]
 
 
+def test_bom_does_not_create_false_difference(tmp_path):
+    # Windows 上許多編輯器會寫入 UTF-8 BOM；內容相同的兩個檔案不該因 BOM 被判定為有差異
+    old = tmp_path / "with_bom.txt"
+    new = tmp_path / "without_bom.txt"
+    old.write_bytes("﻿alpha\nbravo\n".encode())
+    new.write_bytes("alpha\nbravo\n".encode())
+
+    result = subprocess.run(
+        [sys.executable, str(TOOL), str(old), str(new)],
+        capture_output=True, text=True, encoding="utf-8",
+    )
+
+    assert result.returncode == 0, result.stdout  # 無差異
+    assert [line[0] for line in result.stdout.splitlines()] == [" ", " "]
+
+
 def test_matches_git_diff_on_unambiguous_case(tmp_path):
     # 與業界工具對照：無歧義的案例下，差異行應與 git diff --no-index 完全一致
     old = ["alpha", "bravo", "charlie", "delta"]

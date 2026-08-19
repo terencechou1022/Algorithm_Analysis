@@ -54,8 +54,10 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8")  # 輸出固定 UTF-8，避免 Windows 主控台編碼問題
 
     try:
-        old_lines = args.old_file.read_text(encoding="utf-8").splitlines()
-        new_lines = args.new_file.read_text(encoding="utf-8").splitlines()
+        # 用 utf-8-sig 讀取：Windows 上不少編輯器會在檔頭寫入 UTF-8 BOM，
+        # 若不濾除，BOM 會併入第一行內容，使兩個內容相同的檔案被誤判為有差異
+        old_lines = args.old_file.read_text(encoding="utf-8-sig").splitlines()
+        new_lines = args.new_file.read_text(encoding="utf-8-sig").splitlines()
     except UnicodeDecodeError:
         sys.exit("minidiff 只支援 UTF-8 文字檔")
 

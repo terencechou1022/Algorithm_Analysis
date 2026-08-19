@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "algorithm-analysis"
 version = "0.1.0"
-description = "Classic algorithms implemented from scratch in Python, with tests and empirical complexity analysis"
+description = "六個經典演算法的 Python 手寫實作：每一個都附與內建實作對照的正確性測試、理論複雜度推導，以及跨輸入規模與分佈的實測曲線對照分析，並由此延伸出檔案壓縮與行級差異比較兩個命令列工具。"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Terence Chou" }]

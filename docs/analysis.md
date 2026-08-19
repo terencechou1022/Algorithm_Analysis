@@ -12,7 +12,7 @@
 
 ## 排序：隨機輸入下的四條曲線
 
-![Sorting algorithms, random input](images/sorting_random.png)
+![四種排序在隨機輸入下的實測曲線](images/sorting_random.png)
 
 | 演算法 | n=131,072 中位數 | 理論 |
 |--------|------------------|------|
@@ -29,7 +29,7 @@
 
 ## Quick sort 的退化：同一份程式碼，輸入決定行為
 
-![Quick sort degeneration](images/quicksort_degeneration.png)
+![快速排序在不同輸入分佈下的退化](images/quicksort_degeneration.png)
 
 Lomuto 分割固定取最後一個元素當樞軸。輸入已排序時，每次分割都是最不平均的 (n-1, 0)，時間退化為 O(n²)、遞迴深度退化為 O(n)：
 
@@ -47,7 +47,7 @@ Lomuto 分割固定取最後一個元素當樞軸。輸入已排序時，每次�
 
 ## Insertion sort 的兩面：O(n) 最佳情況與 O(n²) 最壞情況
 
-![Insertion sort by input distribution](images/insertion_best_case.png)
+![插入排序在不同輸入分佈下的最佳與最壞情況](images/insertion_best_case.png)
 
 - **已排序輸入是 O(n)。** 內層 while 迴圈一次都不執行，131,072 筆只要 21 ms，比 merge sort 處理同樣輸入（433 ms）快 20 倍。
 - **反序是最壞情況。** 每個元素都要搬到最前面，n=8,192 時 5.55 s，約為隨機輸入（3.25 s）的 1.7 倍，與理論比值 2（搬移次數 n²/2 對 n²/4）方向一致。
@@ -55,7 +55,7 @@ Lomuto 分割固定取最後一個元素當樞軸。輸入已排序時，每次�
 
 ## Huffman 建樹：一次真實的複雜度改進
 
-![Huffman tree build](images/huffman_build.png)
+![霍夫曼建樹：最小堆積與舊版重排的對比](images/huffman_build.png)
 
 重構前的版本（Initial commit）每合併一次就把整個節點列表重新排序，總複雜度 O(k² log k)；重構後改用 `heapq` 最小堆積，O(k log k)。同一台機器、同一批頻率表：
 

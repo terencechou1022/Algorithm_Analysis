@@ -1,6 +1,6 @@
-# Algorithms from Scratch
+# 從零實作經典演算法
 
-> Six classic algorithms in Python, with correctness tests, empirical complexity analysis, and two CLI tools built on them.
+> 六個經典演算法的 Python 實作：正確性測試、理論與實測的複雜度對照，以及兩個由此延伸的 CLI 工具。
 
 [![CI](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml)
 
@@ -44,11 +44,11 @@ codes = generate_huffman_codes(build_huffman_tree(build_freq_map("aaabbc")))
 
 完整方法論與解讀在 [docs/analysis.md](docs/analysis.md)，數據與腳本在 [benchmarks/](benchmarks/)。兩個代表性結果：
 
-![Sorting algorithms, random input](docs/images/sorting_random.png)
+![四種排序在隨機輸入下的實測曲線](docs/images/sorting_random.png)
 
 四種手寫排序與內建 `sorted()` 的實測曲線（log-log）：merge、heap、quick 的斜率貼合 n log n 參考線，insertion 貼合 n²；C 實作的 Timsort 比最快的手寫排序仍快一個數量級。
 
-![Quick sort degeneration](docs/images/quicksort_degeneration.png)
+![快速排序在不同輸入分佈下的退化](docs/images/quicksort_degeneration.png)
 
 同一份 quick sort 程式碼，只改輸入分佈：已排序輸入退化為 O(n²)，4,096 筆資料比隨機輸入慢 180 倍。理論上的最壞情況，實測看得見。
 

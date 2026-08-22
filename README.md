@@ -2,7 +2,7 @@
 
 > 六個經典演算法的 Python 實作：正確性測試、理論與實測的複雜度對照，以及兩個由此延伸的 CLI 工具。
 
-[![CI](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/terencechou1022/Algorithm_Analysis/actions/workflows/ci.yml)
+[![CI](https://github.com/terencechou1022/Algorithm_Analysis_Bench/actions/workflows/ci.yml/badge.svg)](https://github.com/terencechou1022/Algorithm_Analysis_Bench/actions/workflows/ci.yml)
 
 這個專案從零開始實作經典演算法，並逐步擴充為完整的實作與分析專案。我的大學本科不是資訊領域，所以我選擇讓程式碼自己說話：每一個演算法都有正確性測試、理論複雜度說明，以及實測數據與理論的對照分析（[docs/analysis.md](docs/analysis.md)）。
 
@@ -23,8 +23,8 @@
 ## 快速開始
 
 ```bash
-git clone https://github.com/terencechou1022/Algorithm_Analysis.git
-cd Algorithm_Analysis
+git clone https://github.com/terencechou1022/Algorithm_Analysis_Bench.git
+cd Algorithm_Analysis_Bench
 pip install -e ".[dev]"
 pytest
 ```

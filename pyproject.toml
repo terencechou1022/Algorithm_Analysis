@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "algorithm-analysis"
+name = "algorithm-analysis-bench"
 version = "0.1.0"
 description = "以 Python 從零實作經典演算法：與基準實作對照驗證正確性，比對理論複雜度與實測數據，並延伸出兩個可用的 CLI 工具"
 readme = "README.md"

@@ -1,0 +1,10 @@
+# 第一行的「.」是安裝本專案自己：src/algorithms 走 src layout，
+# 不安裝就不在 sys.path 上，測試與 benchmark 都會在 `from algorithms...` 當場 ImportError。
+.
+
+# 效能量測與繪圖
+matplotlib>=3.8
+
+# 測試與靜態檢查
+pytest>=8.0
+ruff>=0.6

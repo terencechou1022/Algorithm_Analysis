@@ -4,16 +4,23 @@ on:
   push:
     branches: [main, master]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
-      - name: Install
+          python-version: '3.12'
+          cache: pip
+
+      # src layout：不安裝本專案就不在 sys.path 上，測試與 benchmark 會當場
+      # ImportError。[dev] 這組額外帶入 pytest 與 matplotlib。
+      - name: 安裝套件與開發工具
         run: pip install -e ".[dev]"
-      - name: Test (pytest)
-        run: pytest -q
+
+      - name: 執行測試
+        run: python -m pytest -q
